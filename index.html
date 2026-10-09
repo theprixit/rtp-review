@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache"><meta name="robots" content="noindex, nofollow, noarchive"><title>IaSTS-MP 2026-46 review</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
+<style>
+/* e-book reader for the printed book (reviewer 09.10.2026: "I want an ebook experience"): the whole A3 page as printed, with its head, footer and
+   watermark, on a desk; page-turn animation; page-stack edges; slider, thumbnails, contents, full screen; comments on text or on a point. */
+:root { --ink:#1b1b1b; --mut:#5c5c5c; --red:#9e1b1b; --rule:#d4d4d4; --desk1:#2e2d2b; --desk2:#1c1b1a; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; max-width: 100vw; font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); background: var(--desk2); overflow: hidden; }
+#login { display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 16px; background: #e9e8e5; }
+.box { background: #fff; border: 2px solid #262626; padding: 26px 28px; width: min(440px, 100%); box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+.box h1 { font-size: 17px; margin: 0 0 4px; } .box .s { color: var(--mut); font-size: 12.5px; margin-bottom: 18px; }
+.box label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.box input { width: 100%; font: 15px 'Segoe UI', Arial; padding: 9px 10px; border: 1px solid #999; border-radius: 4px; }
+.box button { margin-top: 12px; width: 100%; font: 700 14px 'Segoe UI', Arial; padding: 10px; background: var(--red); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+.box button:disabled { background: #c9a3a3; } .m { font-size: 12px; color: #b00020; margin-top: 10px; min-height: 16px; }
+.cls { margin-top: 18px; font-size: 10.5px; color: var(--red); font-weight: 700; letter-spacing: .06em; text-align: center; }
+#app { display: none; height: 100vh; height: 100dvh; flex-direction: column; background: radial-gradient(ellipse at 50% 40%, var(--desk1), var(--desk2) 75%); }
+#bar { display: flex; max-width: 100vw; align-items: center; gap: 7px; padding: 7px 12px; background: rgba(20,20,20,.92); color: #eee; font-size: 15px; transition: margin-top .25s; z-index: 10; }
+#bar .t { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 26vw; color: #fff; }
+#bar .r { font-size: 10.5px; color: #e0a0a0; font-weight: 700; letter-spacing: .05em; white-space: nowrap; }
+#bar button { font: 600 14.5px 'Segoe UI', Arial; background: #353535; color: #eee; border: 1px solid #4a4a4a; border-radius: 5px; padding: 6px 11px; cursor: pointer; white-space: nowrap; }
+#bar button:hover { background: #444; } #bar button.on { background: var(--red); border-color: var(--red); color: #fff; }
+#bar .sp { flex: 1; } #sec { color: #bdbdbd; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30vw; }
+#main { flex: 1; display: flex; min-height: 0; position: relative; }
+#view { flex: 1; overflow: auto; position: relative; display: flex; -webkit-overflow-scrolling: touch; }
+#stage { margin: auto; padding: 18px 26px; position: relative; }
+#book { position: relative; perspective: 2600px; }
+/* page-stack edges: read pages on the left, the rest on the right */
+.edge { position: absolute; top: 3px; bottom: 3px; width: 0; border-radius: 2px;
+        background: repeating-linear-gradient(90deg, #f3f1ec 0 1px, #cfccc4 1px 2px); box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+#edgeL { right: 100%; } #edgeR { left: 100%; }
+#pg { position: relative; background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.35); }
+#pg canvas { display: block; }
+#pg::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 26px; pointer-events: none;
+             background: linear-gradient(90deg, rgba(0,0,0,.16), rgba(0,0,0,0)); }   /* the spine */
+#links a { position: absolute; display: block; } #links a:hover { background: rgba(158,27,27,.10); }
+.textLayer { z-index: 2; } #links { position: absolute; inset: 0; z-index: 3; pointer-events: none; } #links a { pointer-events: auto; }
+#pins { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.pin { position: absolute; width: 22px; height: 22px; margin: -22px 0 0 -4px; background: var(--red); color: #fff; border: 2px solid #fff; border-radius: 11px 11px 11px 2px;
+       font: 700 11px/18px 'Segoe UI', Arial; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.4); cursor: pointer; pointer-events: auto; }
+.pin.done { background: #6b6b6b; }
+#pg.pinmode, #pg.pinmode .textLayer span { cursor: crosshair; }
+/* the turning page: strips hinged one on the next (see curlLeaf) */
+.curl { position: absolute; left: 0; top: 0; z-index: 8; transform-style: preserve-3d; pointer-events: none; }
+.strip { position: absolute; top: 0; height: 100%; transform-style: preserve-3d; transform-origin: left center; will-change: transform; }
+.strip > .f, .strip > .b { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; background: #fff; }
+.strip > .b { transform: rotateY(180deg); background: #f5f3ee; }
+.strip canvas { position: absolute; left: 0; top: 0; display: block; }
+.strip .sh { position: absolute; inset: 0; pointer-events: none; }
+.cast { position: absolute; left: 0; top: 0; z-index: 7; pointer-events: none; opacity: 0;
+        background: linear-gradient(90deg, rgba(0,0,0,.34), rgba(0,0,0,.10) 35%, rgba(0,0,0,0) 70%); }
+/* turn zones */
+.zone { position: absolute; top: 0; bottom: 0; width: 64px; display: flex; align-items: center; justify-content: center; z-index: 6; cursor: pointer; color: rgba(255,255,255,.0); font-size: 40px; transition: color .2s, background .2s; }
+.zone:hover { color: rgba(255,255,255,.75); background: rgba(255,255,255,.04); }
+#zl { left: 0; } #zr { right: 0; }
+#foot { display: flex; align-items: center; gap: 12px; padding: 7px 14px 9px; background: rgba(20,20,20,.92); color: #ddd; font-size: 14px; z-index: 10; }
+#foot input[type=range] { flex: 1; accent-color: var(--red); }
+#foot .pn { font-weight: 700; color: #fff; white-space: nowrap; } #foot .pn input { width: 52px; font: 14px 'Segoe UI', Arial; text-align: center; border-radius: 3px; border: 1px solid #555; background: #2a2a2a; color: #fff; }
+#side { width: 400px; max-width: 92vw; background: #fff; border-left: 1px solid var(--rule); overflow: auto; display: none; z-index: 12; }
+#side.open { display: block; }
+#side h3 { margin: 0; padding: 11px 12px; font-size: 16px; border-bottom: 1px solid var(--rule); background: #f4f4f4; position: sticky; top: 0; z-index: 1; }
+.toc a { display: block; padding: 6px 12px; color: var(--ink); text-decoration: none; font-size: 14.5px; border-bottom: 1px solid #f0f0f0; }
+.toc a.l2 { padding-left: 26px; color: var(--mut); font-size: 13.5px; } .toc a .p { float: right; color: var(--mut); } .toc a.cur { background: #f6eded; }
+.thumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+.thumbs a { display: block; text-decoration: none; color: var(--mut); font-size: 11px; text-align: center; }
+.thumbs .im { background: #eee; aspect-ratio: 1.414; border: 1px solid #ccc; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.thumbs .im canvas { width: 100%; height: 100%; display: block; } .thumbs a.cur .im { outline: 3px solid var(--red); }
+.cm { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14.5px; }
+.cm .h { color: var(--mut); font-size: 11.5px; margin-bottom: 3px; } .cm .q { color: #444; font-style: italic; margin: 3px 0; border-left: 3px solid var(--rule); padding-left: 6px; }
+.cm .a button { font: 12px 'Segoe UI', Arial; margin: 4px 6px 0 0; padding: 2px 8px; border: 1px solid #bbb; background: #fff; border-radius: 3px; cursor: pointer; }
+.cm.done { opacity: .6; }
+#selbtn { position: fixed; display: none; z-index: 20; font: 700 15px 'Segoe UI', Arial; background: var(--red); color: #fff; border: none; border-radius: 5px; padding: 8px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+#dlg { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 30; padding: 16px; }
+#dlg .d { background: #fff; width: min(520px, 100%); border-radius: 6px; padding: 16px; box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+#dlg .q { font-size: 14px; color: #444; font-style: italic; max-height: 80px; overflow: auto; border-left: 3px solid var(--rule); padding-left: 6px; margin: 6px 0 10px; }
+#dlg textarea { width: 100%; height: 130px; font: 16px 'Segoe UI', Arial; padding: 8px; border: 1px solid #aaa; border-radius: 4px; }
+#dlg select { font: 13px 'Segoe UI', Arial; padding: 4px; }
+#dlg .b { text-align: right; margin-top: 10px; } #dlg .b button { font: 700 13px 'Segoe UI', Arial; padding: 7px 14px; margin-left: 6px; border-radius: 4px; border: 1px solid #999; background: #fff; cursor: pointer; }
+#dlg .b button.ok { background: var(--red); color: #fff; border-color: var(--red); }
+#rot { display: none; position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; color: #cfcfcf; font-size: 12px; z-index: 5; pointer-events: none; }
+@media (max-width: 760px) and (orientation: portrait) { #rot { display: block; } }
+#busy { position: absolute; top: 45%; left: 0; right: 0; text-align: center; color: #bbb; font-size: 13px; }
+#dlg input.nm { width: 100%; font: 15px 'Segoe UI', Arial; padding: 7px 8px; border: 1px solid #aaa; border-radius: 4px; margin: 4px 0 8px; }
+#dlg .row { display: flex; gap: 10px; align-items: center; font-size: 14px; margin-bottom: 8px; flex-wrap: wrap; } #dlg a { color: var(--red); font-size: 13.5px; }
+#hint { position: fixed; left: 50%; transform: translateX(-50%); bottom: 64px; background: #9e1b1b; color: #fff; font-size: 15px; padding: 8px 14px; border-radius: 6px; z-index: 15; display: none; box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+@media (max-width: 760px) { .edge { display: none; } #bar .t, #sec, #bar .r, .hide-s { display: none; } #stage { padding: 8px 10px; } .zone { width: 34px; font-size: 30px; }
+  #bar { gap: 4px; padding: 5px 6px; overflow-x: auto; flex-wrap: nowrap; } #bar button { padding: 5px 7px; font-size: 12px; } #bar .sp { display: none; }
+  #foot { padding: 5px 8px 7px; gap: 6px; }
+  #side { position: fixed; right: 0; top: 0; bottom: 0; box-shadow: -4px 0 16px rgba(0,0,0,.4); } }
+#view.pan, #view.pan #pg { cursor: grab; } #view.pan.dragging, #view.pan.dragging #pg { cursor: grabbing; }
+#view.pan .textLayer { pointer-events: none; user-select: none; -webkit-user-select: none; }
+#view.pan .zone { display: none; }
+
+</style></head><body>
+<div id="login"><form class="box" id="f"><h1>Transmission Master Plan 2026-46 — draft for review</h1>
+<div class="s">Controlled document of HPPTCL. The book is stored encrypted and is opened in your browser with the password you have been given. It reads as the printed A3 book, page by page.</div>
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" autofocus>
+<button id="go" type="submit">Open</button><div class="m" id="m"></div>
+<div class="cls">CONFIDENTIAL — NOT TO BE COPIED OR CIRCULATED</div></form></div>
+<div id="app">
+<div id="bar"><span class="t">IaSTS-MP 2026-46 R0 (round 26)</span><span class="r">DRAFT · CONFIDENTIAL</span>
+<button id="btoc">Contents</button><button id="bthm" class="hide-s">Pages</button><span id="sec"></span><span class="sp"></span>
+<button id="zo" title="Zoom out">−</button><button id="zfit" title="Whole page">Page</button><button id="zi" title="Zoom in">+</button><button id="bhand" title="Hand: drag to move the zoomed page (H)" style="display:none">✋ Pan</button>
+<button id="bpin" title="Comment on this page (select words first to comment on them)">+ Comment</button><button id="bcm">Comments (<span id="ncm">0</span>)</button><button id="bexp">Export</button><button id="bfs" title="Full screen">⛶</button></div>
+<div id="main"><div id="view"><div id="busy">opening the book…</div><div id="rot">Turn the phone sideways for a larger page · pinch or + to zoom</div>
+<div id="stage"><div id="book"><div class="edge" id="edgeL"></div><div class="edge" id="edgeR"></div>
+<div id="pg"><canvas id="cv"></canvas><div id="tl" class="textLayer"></div><div id="links"></div><div id="pins"></div></div></div></div>
+<div class="zone" id="zl" title="Previous page">‹</div><div class="zone" id="zr" title="Next page">›</div></div>
+<div id="side"><div id="sidebody"></div></div></div>
+<div id="foot"><span class="pn">Page <input id="pno" inputmode="numeric"> of <span id="pof"></span></span><input type="range" id="slider" min="1" value="1"><span id="secf" class="hide-s"></span></div></div>
+<button id="selbtn">Comment</button>
+<div id="dlg"><div class="d"><b id="dh" style="font-size:16px">Comment</b><div class="q" id="dq"></div>
+<div class="row"><label>Type <select id="dt"><option value="change">Change</option><option value="question">Question</option><option value="note">Note</option></select></label>
+<a href="#" id="dplace">Place the comment on a spot of the page</a></div>
+<textarea id="dx" placeholder="Your comment"></textarea>
+<input class="nm" id="dn" placeholder="Your name (kept for the comment file)">
+<div class="b"><button id="dc">Cancel</button><button id="dk" class="ok">Save</button></div></div></div><div id="hint"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function(){
+var DOCID = 'IaSTS-MP 2026-46 R0 (round 26)', KEY = 'mp_book_r0_round26', ROUNDS = 250000;
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+var $ = function(i){ return document.getElementById(i); };
+var blobP = fetch('rtp.bin', {cache: 'no-store'}).then(function(r){ if (!r.ok) throw new Error('page not found'); return r.arrayBuffer(); });
+$('f').addEventListener('submit', function(ev){
+  ev.preventDefault(); var pw = $('pw').value; if (!pw) return;
+  $('go').disabled = true; $('m').style.color = '#5c5c5c'; $('m').textContent = 'loading…';
+  blobP.then(function(buf){
+    var u = new Uint8Array(buf); if (String.fromCharCode.apply(null, u.subarray(0, 4)) !== 'SVR1') throw new Error('bad file');
+    var salt = u.subarray(4, 20), iv = u.subarray(20, 32), ct = u.subarray(32); $('m').textContent = 'opening…';
+    return crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']).then(function(k){
+      return crypto.subtle.deriveKey({name:'PBKDF2', salt: salt, iterations: ROUNDS, hash:'SHA-256'}, k, {name:'AES-GCM', length:256}, false, ['decrypt']);
+    }).then(function(key){ return crypto.subtle.decrypt({name:'AES-GCM', iv: iv}, key, ct); });
+  }).then(function(pt){ $('login').style.display = 'none'; $('app').style.display = 'flex'; start(new Uint8Array(pt)); })
+  .catch(function(e){ $('go').disabled = false; $('m').style.color = '#b00020'; $('m').textContent = (e && e.name === 'OperationError') ? 'Wrong password.' : 'Could not open: ' + (e.message || e); });
+});
+
+var PDF = null, N = 0, cur = 1, zoom = 0, OUT = [], CM = [], WHO = '', pinMode = false, side = '', busy = false, queued = null, PW1 = 0, PH1 = 0;
+var CACHE = {}, ORDER = [];
+var store = { get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set: function(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
+function save(){ store.set(KEY, JSON.stringify({doc: DOCID, who: WHO, comments: CM})); $('ncm').textContent = CM.length; }
+function load(){ try { var o = JSON.parse(store.get(KEY) || 'null'); if (o) { CM = o.comments || []; WHO = o.who || ''; } } catch(e){} $('ncm').textContent = CM.length; }
+function esc(s){ return String(s || '').replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function sectionOf(p){ var s = ''; OUT.forEach(function(o){ if (o.page && o.page <= p) s = o.title; }); return s; }
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+function start(data){
+  load();
+  pdfjsLib.getDocument({data: data}).promise.then(function(pdf){
+    PDF = pdf; N = pdf.numPages; $('pof').textContent = N; $('slider').max = N;
+    return pdf.getPage(1).then(function(p){ var v = p.getViewport({scale: 1}); PW1 = v.width; PH1 = v.height; });
+  }).then(function(){
+    var h = parseInt((location.hash.match(/p=(\d+)/) || [])[1] || store.get(KEY + ':page') || '1', 10); cur = Math.min(Math.max(h, 1), N);
+    return PDF.getOutline().then(function(ol){ return flatten(ol || [], 1); }).then(function(){ OUT.sort(function(a, b){ return a.page - b.page; }); }).catch(function(){});
+  }).then(function(){ $('busy').style.display = 'none'; paint(cur); handUi(); })
+  .catch(function(e){ $('busy').textContent = 'Could not read the book: ' + e.message; });
+}
+function flatten(items, lvl){
+  return items.reduce(function(p, it){
+    return p.then(function(){ return destPage(it.dest); }).then(function(pg){ OUT.push({title: it.title, page: pg, lvl: lvl}); return flatten(it.items || [], lvl + 1); });
+  }, Promise.resolve());
+}
+function destPage(dest){
+  if (!dest) return Promise.resolve(0);
+  return (typeof dest === 'string' ? PDF.getDestination(dest) : Promise.resolve(dest)).then(function(d){
+    if (!d) return 0; if (typeof d[0] === 'number') return d[0] + 1; return PDF.getPageIndex(d[0]).then(function(i){ return i + 1; });
+  }).catch(function(){ return 0; });
+}
+// ---- scale: the whole page fits the screen ("Page"); + and − zoom from there
+function fitScale(){
+  var v = $('view'), pad = window.innerWidth < 760 ? 30 : 52;
+  return Math.max(0.1, Math.min((v.clientWidth - pad - 20) / PW1, (v.clientHeight - (window.innerWidth < 760 ? 16 : 36)) / PH1));
+}
+function scaleNow(){ return fitScale() * Math.pow(1.25, zoom); }
+function rendered(n, scale){
+  var k = n + '@' + scale.toFixed(4);
+  if (CACHE[k]) return CACHE[k];
+  var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  var p = PDF.getPage(n).then(function(page){
+    var vp = page.getViewport({scale: scale}), cv = document.createElement('canvas');
+    cv.width = Math.floor(vp.width * dpr); cv.height = Math.floor(vp.height * dpr); cv.style.width = vp.width + 'px'; cv.style.height = vp.height + 'px';
+    return page.render({canvasContext: cv.getContext('2d'), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null}).promise
+      .then(function(){ return {page: page, vp: vp, cv: cv, scale: scale}; });
+  });
+  CACHE[k] = p; ORDER.push(k);
+  while (ORDER.length > 8) delete CACHE[ORDER.shift()];
+  return p;
+}
+function prefetch(){ var s = scaleNow(); [cur + 1, cur - 1, cur + 2].forEach(function(n){ if (n >= 1 && n <= N) rendered(n, s); }); }
+function clone(cv){ var c = document.createElement('canvas'); c.width = cv.width; c.height = cv.height; c.getContext('2d').drawImage(cv, 0, 0); return c; }
+// put a rendered page on the desk, with its text, links and comment pins
+function mount(r){
+  var pg = $('pg'), old = $('cv'), cv = clone(r.cv); cv.id = 'cv'; cv.style.width = r.cv.style.width; cv.style.height = r.cv.style.height;
+  pg.replaceChild(cv, old); pg.style.width = r.vp.width + 'px'; pg.style.height = r.vp.height + 'px';
+  var frac = (cur - 1) / Math.max(N - 1, 1), maxE = Math.min(14, r.vp.width * 0.012);
+  $('edgeL').style.width = (2 + maxE * frac) + 'px'; $('edgeR').style.width = (2 + maxE * (1 - frac)) + 'px';
+  var tl = $('tl'); tl.innerHTML = ''; tl.style.setProperty('--scale-factor', r.scale);
+  r.page.getTextContent().then(function(tc){ pdfjsLib.renderTextLayer({textContentSource: tc, container: tl, viewport: r.vp}); });
+  var lk = $('links'); lk.innerHTML = '';
+  r.page.getAnnotations().then(function(an){
+    an.forEach(function(a){
+      if (a.subtype !== 'Link') return;
+      var q = r.vp.convertToViewportRectangle(a.rect), el = document.createElement('a');
+      el.style.left = Math.min(q[0], q[2]) + 'px'; el.style.top = Math.min(q[1], q[3]) + 'px'; el.style.width = Math.abs(q[2] - q[0]) + 'px'; el.style.height = Math.abs(q[3] - q[1]) + 'px';
+      if (a.url) { el.href = a.url; el.target = '_blank'; el.rel = 'noopener'; }
+      else if (a.dest) { el.href = '#'; el.onclick = function(ev){ ev.preventDefault(); destPage(a.dest).then(function(p){ if (p) go(p); }); }; }
+      lk.appendChild(el);
+    });
+  });
+  drawPins();
+}
+function chrome(){
+  $('pno').value = cur; $('slider').value = cur; var s = sectionOf(cur); $('sec').textContent = s; $('secf').textContent = s;
+  store.set(KEY + ':page', String(cur)); history.replaceState(null, '', '#p=' + cur);
+  if (side === 'toc' || side === 'thm') openSide(side);
+}
+function paint(n){ cur = n; return rendered(cur, scaleNow()).then(function(r){ mount(r); chrome(); prefetch(); }); }
+// ---- page turn: the page bends from its free edge and turns over the spine (forward), or the previous page comes back over it
+//      (reviewer 09.10.2026: "a good smooth page turn"). The leaf is cut into narrow strips hinged one on the next, each turned a little
+//      more than the one nearer the spine, so the page curls; the shading follows the angle of each strip. A turn can also be dragged
+//      from the edge of the page, with the mouse or a finger.
+var NS = 18, CURL = 0.9;
+function curlLeaf(srcCanvas, W, H){
+  var leaf = document.createElement('div'); leaf.className = 'curl'; leaf.style.width = W + 'px'; leaf.style.height = H + 'px';
+  var sw = srcCanvas.width / NS, sh = srcCanvas.height, w = W / NS, parent = leaf, strips = [];
+  for (var k = 0; k < NS; k++) {
+    var st = document.createElement('div'); st.className = 'strip'; st.style.width = (w + 0.6) + 'px'; st.style.left = (k ? w : 0) + 'px';
+    var f = document.createElement('div'); f.className = 'f'; var b = document.createElement('div'); b.className = 'b';
+    var c = document.createElement('canvas'); c.width = Math.ceil(sw) + 1; c.height = sh; c.getContext('2d').drawImage(srcCanvas, k * sw, 0, Math.ceil(sw) + 1, sh, 0, 0, Math.ceil(sw) + 1, sh);
+    c.style.width = (w + 0.6) + 'px'; c.style.height = H + 'px'; f.appendChild(c);
+    var c2 = document.createElement('canvas'); c2.width = c.width; c2.height = sh; var g2 = c2.getContext('2d'); g2.translate(c2.width, 0); g2.scale(-1, 1); g2.drawImage(c, 0, 0);
+    c2.style.width = (w + 0.6) + 'px'; c2.style.height = H + 'px'; c2.style.opacity = '0.08'; b.appendChild(c2);
+    var fs = document.createElement('div'); fs.className = 'sh'; f.appendChild(fs); var bs = document.createElement('div'); bs.className = 'sh'; b.appendChild(bs);
+    st.appendChild(f); st.appendChild(b); parent.appendChild(st); parent = st; strips.push({el: st, fs: fs, bs: bs});
+  }
+  leaf._strips = strips; return leaf;
+}
+function smooth(x){ x = Math.min(Math.max(x, 0), 1); return x * x * (3 - 2 * x); }
+function setCurl(leaf, cast, p){
+  var prev = 0;
+  leaf._strips.forEach(function(s, k){
+    var x = (k + 0.5) / NS, th = 180 * smooth(p * (1 + CURL) - CURL * (1 - x));
+    s.el.style.transform = 'rotateY(' + (-(th - prev)) + 'deg)'; prev = th;
+    var r = th * Math.PI / 180;
+    s.fs.style.background = 'rgba(0,0,0,' + (0.30 * (1 - Math.cos(r)) / 2).toFixed(3) + ')';
+    s.bs.style.background = 'rgba(0,0,0,' + (0.22 * (1 + Math.cos(r)) / 2).toFixed(3) + ')';
+  });
+  if (cast) cast.style.opacity = (Math.sin(Math.PI * Math.min(Math.max(p, 0), 1)) * 0.9).toFixed(3);
+}
+function ease(t){ return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function animate(from, to, ms, fn){
+  return new Promise(function(res){
+    // frames come from requestAnimationFrame, with a timer behind it so that a turn always finishes (a hidden tab gets no frames)
+    var t0 = performance.now(), done = false, tick = 0;
+    function step(){
+      if (done) return; var u = Math.min((performance.now() - t0) / ms, 1); fn(from + (to - from) * ease(u));
+      if (u >= 1) { done = true; res(); return; }
+      var my = ++tick, go_ = function(){ if (my === tick) step(); };
+      requestAnimationFrame(go_); setTimeout(go_, 34);
+    }
+    step();
+  });
+}
+function reduceMotion(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+// a turn in progress: forward = the current page curls away and uncovers the next; backward = the previous page curls back over the current
+function startTurn(n){
+  var fwd = n > cur, s = scaleNow();
+  return Promise.all([rendered(n, s), rendered(cur, s)]).then(function(rs){
+    var rn = rs[0], ro = rs[1], book = $('book'), W = parseFloat($('pg').style.width), H = parseFloat($('pg').style.height);
+    var leaf = curlLeaf(fwd ? $('cv') : rn.cv, W, H);
+    var cast = document.createElement('div'); cast.className = 'cast'; cast.style.width = W + 'px'; cast.style.height = H + 'px';
+    book.appendChild(cast); book.appendChild(leaf);
+    var old = cur;
+    if (fwd) { cur = n; mount(rn); }
+    var T = {n: n, old: old, fwd: fwd, rn: rn, ro: ro, leaf: leaf, cast: cast, p: fwd ? 0 : 1};
+    setCurl(leaf, cast, T.p);
+    return T;
+  });
+}
+function endTurn(T, commit){
+  var target = T.fwd ? (commit ? 1 : 0) : (commit ? 0 : 1), d = Math.abs(target - T.p);
+  return animate(T.p, target, Math.max(160, 760 * d), function(p){ T.p = p; setCurl(T.leaf, T.cast, p); }).then(function(){
+    if (T.fwd && !commit) { cur = T.old; mount(T.ro); }
+    if (!T.fwd && commit) { cur = T.n; mount(T.rn); }
+    T.leaf.remove(); T.cast.remove(); chrome();
+  });
+}
+function go(n){
+  n = Math.min(Math.max(n, 1), N); if (n === cur) return;
+  if (busy) { queued = n; return; }
+  busy = true;
+  var p0;
+  if (reduceMotion() || Math.abs(n - cur) > 3 || zoom > 0) {
+    p0 = rendered(n, scaleNow()).then(function(r){ cur = n; mount(r); chrome(); });
+  } else {
+    p0 = startTurn(n).then(function(T){ return endTurn(T, true); });
+  }
+  p0.then(function(){ busy = false; prefetch(); if (queued) { var q = queued; queued = null; go(q); } });
+}
+// dragging the edge of the page turns it, as with a book
+var DRG = null;
+$('pg').addEventListener('pointerdown', function(e){
+  if (pinMode || zoom > 0 || busy || e.button > 0 || e.target.closest('a,.pin')) return;
+  var b = this.getBoundingClientRect(), x = (e.clientX - b.left) / b.width;
+  var n = x > 0.82 ? cur + 1 : (x < 0.18 ? cur - 1 : 0); if (!n || n < 1 || n > N) return;
+  e.preventDefault(); busy = true; var W = b.width;
+  var D = DRG = {x0: e.clientX, W: W, T: null, n: n, moved: false, done: false};
+  try { this.setPointerCapture(e.pointerId); } catch (er) {}
+  startTurn(n).then(function(T){ D.T = T; if (D.done) finDrag(D); });
+});
+$('pg').addEventListener('pointermove', function(e){
+  if (!DRG || !DRG.T) return; var dx = e.clientX - DRG.x0; if (Math.abs(dx) > 4) DRG.moved = true;
+  var T = DRG.T, q = Math.min(Math.max(Math.abs(dx) / (DRG.W * 0.85), 0), 1);
+  T.p = T.fwd ? (dx < 0 ? q : 0) : (dx > 0 ? 1 - q : 1); setCurl(T.leaf, T.cast, T.p);
+});
+function finDrag(D){
+  var T = D.T, commit = !D.moved ? true : (T.fwd ? T.p > 0.28 : T.p < 0.72);
+  endTurn(T, commit).then(function(){ busy = false; prefetch(); });
+}
+function dragEnd(e){
+  if (!DRG) return; var D = DRG; DRG = null; D.done = true;
+  if (D.T) finDrag(D);
+  window._noTurn = true; setTimeout(function(){ window._noTurn = false; }, 80);
+}
+$('pg').addEventListener('pointerup', dragEnd); $('pg').addEventListener('pointercancel', dragEnd);
+function drawPins(){
+  var w = parseFloat($('pg').style.width), h = parseFloat($('pg').style.height), P = $('pins'); P.innerHTML = '';
+  CM.forEach(function(c){
+    if (c.anchor.page !== cur) return;
+    var d = document.createElement('div'); d.className = 'pin' + (c.status === 'done' ? ' done' : ''); d.textContent = c.n;
+    d.style.left = (c.anchor.x * w) + 'px'; d.style.top = (c.anchor.y * h) + 'px'; d.title = c.text;
+    d.onclick = function(ev){ ev.stopPropagation(); openSide('cm'); var el = document.getElementById('cm' + c.n); if (el) el.scrollIntoView(); };
+    P.appendChild(d);
+  });
+}
+// ---- turning: edge zones, the page margins, keys, swipe, slider
+$('zl').onclick = function(){ go(cur - 1); }; $('zr').onclick = function(){ go(cur + 1); };
+$('pno').onchange = function(){ var v = parseInt(this.value, 10); if (v) go(v); };
+$('slider').oninput = function(){ $('pno').value = this.value; $('secf').textContent = sectionOf(+this.value); };
+$('slider').onchange = function(){ go(parseInt(this.value, 10)); };
+$('zi').onclick = function(){ zoom = Math.min(zoom + 1, 8); CACHE = {}; ORDER = []; paint(cur); handUi(); };
+$('zo').onclick = function(){ zoom = Math.max(zoom - 1, -2); CACHE = {}; ORDER = []; paint(cur); handUi(); };
+$('zfit').onclick = function(){ zoom = 0; CACHE = {}; ORDER = []; paint(cur); handUi(); };
+var hand = true;
+function handUi(){ var z = zoom > 0; $('pg').style.touchAction = z ? 'auto' : 'pan-y pinch-zoom'; $('bhand').style.display = z ? '' : 'none'; $('bhand').className = (z && hand) ? 'on' : ''; $('view').classList.toggle('pan', z && hand && !pinMode); }
+$('bhand').onclick = function(){ hand = !hand; handUi(); };
+var drag = null;
+$('view').addEventListener('mousedown', function(e){
+  if (!$('view').classList.contains('pan') || e.button !== 0 || e.target.closest('a,.pin,.zone')) return;
+  drag = {x: e.clientX, y: e.clientY, l: this.scrollLeft, t: this.scrollTop, moved: false}; this.classList.add('dragging'); e.preventDefault();
+});
+window.addEventListener('mousemove', function(e){ if (!drag) return; var v = $('view'), dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true; v.scrollLeft = drag.l - dx; v.scrollTop = drag.t - dy; });
+window.addEventListener('mouseup', function(){ if (!drag) return; $('view').classList.remove('dragging'); var m = drag.moved; drag = null;
+  if (m) { window._noTurn = true; setTimeout(function(){ window._noTurn = false; }, 50); } });
+$('bfs').onclick = function(){ var d = document; if (!d.fullscreenElement) { (d.documentElement.requestFullscreen || function(){}).call(d.documentElement); } else d.exitFullscreen(); };
+document.addEventListener('fullscreenchange', function(){ setTimeout(function(){ CACHE = {}; ORDER = []; paint(cur); }, 200); });
+document.addEventListener('keydown', function(e){
+  if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || $('dlg').style.display === 'flex') return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { go(cur + 1); e.preventDefault(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(cur - 1); e.preventDefault(); }
+  if (e.key === 'Home') go(1); if (e.key === 'End') go(N);
+  if (e.key === 'f') $('bfs').click();
+  if (e.key === 'h' && zoom > 0) $('bhand').click();
+});
+$('pg').addEventListener('click', function(e){
+  if (pinMode || window._noTurn || zoom > 0 || e.target.closest('a,.pin') || String(window.getSelection())) return;
+  var b = this.getBoundingClientRect(), x = (e.clientX - b.left) / b.width;
+  if (x > 0.9) go(cur + 1); else if (x < 0.1) go(cur - 1);
+});
+var tx = null;
+$('view').addEventListener('touchstart', function(e){ if (e.touches.length === 1 && zoom <= 0) tx = [e.touches[0].clientX, e.touches[0].clientY, Date.now()]; else tx = null; }, {passive: true});
+$('view').addEventListener('touchend', function(e){
+  if (!tx || window._noTurn || DRG) { tx = null; return; } var t = e.changedTouches[0], dx = t.clientX - tx[0], dy = t.clientY - tx[1];
+  if (Date.now() - tx[2] < 700 && Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy) && !String(window.getSelection())) go(cur + (dx < 0 ? 1 : -1)); tx = null;
+});
+window.addEventListener('resize', function(){ clearTimeout(window._rz); window._rz = setTimeout(function(){ if (PDF) { CACHE = {}; ORDER = []; paint(cur); } }, 250); });
+// ---- side panel: contents, page thumbnails, comments
+var thumbObs = null;
+function openSide(k){
+  side = k; $('side').className = 'open'; var b = $('sidebody'), h = '';
+  ['btoc', 'bthm', 'bcm'].forEach(function(i){ $(i).className = ({btoc: 'toc', bthm: 'thm', bcm: 'cm'})[i] === k ? 'on' + ($(i).className.indexOf('hide-s') >= 0 ? ' hide-s' : '') : ($(i).className.indexOf('hide-s') >= 0 ? 'hide-s' : ''); });
+  if (k === 'toc') {
+    var cs = sectionOf(cur);
+    h = '<h3>Contents</h3><div class="toc">' + OUT.map(function(o){ return '<a href="#" data-p="' + o.page + '" class="l' + Math.min(o.lvl, 2) + (o.title === cs ? ' cur' : '') + '">' + esc(o.title) + '<span class="p">' + (o.page || '') + '</span></a>'; }).join('') + '</div>';
+    b.innerHTML = h; var c = b.querySelector('a.cur'); if (c) c.scrollIntoView({block: 'center'});
+  } else if (k === 'thm') {
+    h = '<h3>Pages</h3><div class="thumbs">'; for (var i = 1; i <= N; i++) h += '<a href="#" data-p="' + i + '"' + (i === cur ? ' class="cur"' : '') + '><div class="im" data-t="' + i + '"></div>' + i + '</a>';
+    b.innerHTML = h + '</div>';
+    if (thumbObs) thumbObs.disconnect();
+    thumbObs = new IntersectionObserver(function(es){ es.forEach(function(e){
+      if (!e.isIntersecting || e.target.firstChild) return; var n = +e.target.dataset.t, box = e.target;
+      PDF.getPage(n).then(function(page){ var vp = page.getViewport({scale: 0.16}), cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
+        box.appendChild(cv); page.render({canvasContext: cv.getContext('2d'), viewport: vp}); });
+    }); }, {root: $('side'), rootMargin: '300px'});
+    b.querySelectorAll('.im').forEach(function(el){ thumbObs.observe(el); });
+    var c2 = b.querySelector('a.cur'); if (c2) c2.scrollIntoView({block: 'center'});
+  } else {
+    h = '<h3>Comments (' + CM.length + ')' + (WHO ? ' — ' + esc(WHO) : '') + '</h3>' + (CM.length ? '' : '<div class="cm">No comments yet. Press + Comment to comment on the page in view; to comment on particular words, select them first and press Comment.</div>') +
+        CM.slice().sort(function(a, b){ return a.anchor.page - b.anchor.page || a.n - b.n; }).map(function(c){
+          return '<div class="cm' + (c.status === 'done' ? ' done' : '') + '" id="cm' + c.n + '"><div class="h"><b>' + c.n + '</b> · ' + esc(c.type) + ' · page ' + c.anchor.page + ' · ' + esc(c.section) + '</div>' +
+                 (c.anchor.quote ? '<div class="q">' + esc(c.anchor.quote) + '</div>' : '') + '<div>' + esc(c.text) + '</div>' +
+                 '<div class="a"><button data-go="' + c.anchor.page + '">Go to page</button><button data-ed="' + c.n + '">Edit</button><button data-dn="' + c.n + '">' + (c.status === 'done' ? 'Reopen' : 'Done') + '</button><button data-rm="' + c.n + '">Delete</button></div></div>';
+        }).join('');
+    b.innerHTML = h;
+  }
+}
+function toggle(k){ if (side === k) { side = ''; $('side').className = ''; ['btoc', 'bthm', 'bcm'].forEach(function(i){ $(i).className = $(i).className.replace('on', '').trim(); }); setTimeout(function(){ CACHE = {}; ORDER = []; paint(cur); }, 50); } else { var was = side; openSide(k); if (!was) setTimeout(function(){ CACHE = {}; ORDER = []; paint(cur); }, 50); } }
+$('btoc').onclick = function(){ toggle('toc'); }; $('bthm').onclick = function(){ toggle('thm'); }; $('bcm').onclick = function(){ toggle('cm'); };
+$('sidebody').addEventListener('click', function(e){
+  var t = e.target.closest('[data-p],[data-go],[data-ed],[data-dn],[data-rm]'); if (!t) return; e.preventDefault();
+  if (t.dataset.p) { go(parseInt(t.dataset.p, 10)); if (window.innerWidth < 760) toggle(side); }
+  if (t.dataset.go) go(parseInt(t.dataset.go, 10));
+  var c = CM.filter(function(x){ return String(x.n) === (t.dataset.ed || t.dataset.dn || t.dataset.rm); })[0];
+  if (t.dataset.ed && c) dialog(c.anchor, c);
+  if (t.dataset.dn && c) { c.status = c.status === 'done' ? 'open' : 'done'; save(); openSide('cm'); drawPins(); }
+  if (t.dataset.rm && c && confirm('Delete comment ' + c.n + '?')) { CM = CM.filter(function(x){ return x !== c; }); save(); openSide('cm'); drawPins(); }
+});
+// ---- comments: on selected text, or on a point of the page
+function selAnchor(){
+  var s = window.getSelection(); if (!s || s.isCollapsed) return null; var q = String(s).replace(/\s+/g, ' ').trim(); if (q.length < 2) return null;
+  var r = s.getRangeAt(0); if (!$('tl').contains(r.commonAncestorContainer)) return null;
+  var rr = r.getClientRects()[0] || r.getBoundingClientRect(), pb = $('pg').getBoundingClientRect();
+  return {kind: 'text', page: cur, quote: q.slice(0, 400), x: (rr.left - pb.left) / pb.width, y: (rr.top - pb.top) / pb.height, rect: rr};
+}
+document.addEventListener('selectionchange', function(){
+  var a = selAnchor(), b = $('selbtn'); if (!a) { b.style.display = 'none'; return; }
+  b.style.display = 'block'; b.style.left = Math.min(a.rect.left, window.innerWidth - 110) + 'px'; b.style.top = Math.max(a.rect.top - 40, 4) + 'px'; b._a = a;
+});
+$('selbtn').addEventListener('mousedown', function(e){ e.preventDefault(); });
+$('bpin').addEventListener('mousedown', function(e){ e.preventDefault(); });
+$('selbtn').onclick = function(){ var a = this._a; this.style.display = 'none'; if (a) { delete a.rect; dialog(a); } };
+function pageAnchor(){ var k = CM.filter(function(c){ return c.anchor.page === cur; }).length;
+  return {kind: 'page', page: cur, quote: '', x: 0.955, y: Math.min(0.08 + 0.055 * k, 0.9)}; }
+function hint(t, ms){ var h = $('hint'); h.textContent = t; h.style.display = t ? 'block' : 'none'; clearTimeout(h._t); if (t && ms) h._t = setTimeout(function(){ h.style.display = 'none'; }, ms); }
+$('bpin').onclick = function(){
+  if (pinMode) { pinMode = false; this.className = ''; $('pg').className = ''; hint(''); return; }
+  var a = selAnchor(); if (a) { delete a.rect; $('selbtn').style.display = 'none'; dialog(a); } else dialog(pageAnchor());
+};
+var DRAFT = null;
+$('dplace').onclick = function(e){ e.preventDefault(); DRAFT = {text: $('dx').value, type: $('dt').value, edit: DC}; $('dlg').style.display = 'none';
+  pinMode = true; $('view').classList.remove('pan'); $('bpin').className = 'on'; $('pg').className = 'pinmode'; hint('Tap the spot on the page for this comment'); };
+$('pg').addEventListener('click', function(e){
+  if (!pinMode || e.target.closest('.pin')) return; var pb = this.getBoundingClientRect();
+  e.stopPropagation(); pinMode = false; $('bpin').className = ''; this.className = ''; hint(''); handUi();
+  var a = {kind: 'point', page: cur, quote: (DRAFT && DRAFT.edit && DRAFT.edit.anchor.quote) || '', x: (e.clientX - pb.left) / pb.width, y: (e.clientY - pb.top) / pb.height};
+  if (DRAFT && DRAFT.edit) { DRAFT.edit.anchor = a; } dialog(a, DRAFT && DRAFT.edit); if (DRAFT) { $('dx').value = DRAFT.text; $('dt').value = DRAFT.type; } DRAFT = null;
+}, true);
+var DA = null, DC = null;
+function dialog(a, c){
+  $('dn').value = WHO; $('dn').style.display = WHO ? 'none' : 'block';
+  DA = a; DC = c || null; $('dh').textContent = c ? 'Comment ' + c.n + ' (page ' + a.page + ')' : 'Comment on page ' + a.page;
+  $('dq').textContent = a.quote ? a.quote : (a.kind === 'point' ? '(a spot on the page)' : '(this page: ' + (sectionOf(a.page) || 'page ' + a.page) + ')'); $('dx').value = c ? c.text : ''; $('dt').value = c ? c.type : 'change';
+  $('dlg').style.display = 'flex'; setTimeout(function(){ $('dx').focus(); }, 50);
+}
+$('dc').onclick = function(){ $('dlg').style.display = 'none'; DRAFT = null; };
+$('dk').onclick = function(){
+  var t = $('dx').value.trim(); if (!t) { $('dx').focus(); return; }
+  if (!WHO) { var nm = $('dn').value.trim(); if (!nm) { $('dn').focus(); $('dn').placeholder = 'Please give your name'; return; } WHO = nm; }
+  if (DC) { DC.text = t; DC.type = $('dt').value; }
+  else { var n = CM.reduce(function(m, x){ return Math.max(m, x.n); }, 0) + 1;
+         CM.push({n: n, type: $('dt').value, section: sectionOf(DA.page), anchor: DA, text: t, status: 'open', by: WHO, at: new Date().toISOString()}); }
+  save(); $('dlg').style.display = 'none'; window.getSelection().removeAllRanges(); drawPins(); if (side === 'cm') openSide('cm');
+  hint('Comment saved (' + CM.length + ' in all) · Export sends them to the Wing', 2600);
+};
+// ---- export
+$('bexp').onclick = function(){
+  if (!CM.length) { alert('There are no comments to export.'); return; }
+  var d = new Date(), p = function(x){ return ('0' + x).slice(-2); };
+  var name = 'report_comments_' + (WHO || 'reviewer').replace(/[^A-Za-z0-9]+/g, '_').toLowerCase() + '_' + p(d.getDate()) + p(d.getMonth() + 1) + '_' + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()) + '.json';
+  var blob = new Blob([JSON.stringify({doc: DOCID, reviewer: WHO, saved: d.toISOString(), view: 'book pages', comments: CM}, null, 1)], {type: 'application/json'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+};
+})();
+</script></body></html>
